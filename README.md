@@ -84,6 +84,12 @@ Draft changes are not applied until you click Apply. The draft preview refreshes
 
 Native import does not copy custom Bezier tangents; it defaults to this plugin's smoothstep. It does not convert complex native controllers. Decimal formatting uses JavaScript `toFixed`, not locale separators. Mixed character styles/complex deformers need project-specific checking. The plugin does not adjust cameras, fonts, visibility, backgrounds or export settings.
 
+## 验证状态 / Validation status
+
+- **Windows / macOS / Linux CI：各 37/37 通过**，构建与安全检查通过，三个系统的发布归档 SHA-256 一致。
+- **Real application:** macOS / Cavalry 2.7.2 tested. **Windows Cavalry itself remains unverified.**
+- [CI 证据与测试边界 / Evidence and test boundaries](docs/TESTING.md)
+
 ## Development / 开发
 
 No package installation is required. Development checks use Node.js 22+ and Python 3.9+ (standard libraries only):

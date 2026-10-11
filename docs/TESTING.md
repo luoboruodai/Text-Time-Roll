@@ -8,6 +8,18 @@ Run `npm test`, then build and audit the release. Tests cover numeric endpoints/
 
 The GitHub Actions workflow is configured to run the same public tests on **macos-latest, windows-latest and ubuntu-latest**, with no Cavalry installation. CI verifies JavaScript logic and packaging on those runners; it **does not** test their Cavalry rendering/UI/font engines. Check the [Actions result](https://github.com/luoboruodai/Text-Time-Roll/actions) for the exact commit being used. Release tags are created only after the publication candidate passes this matrix.
 
+### Verified CI evidence / 已验证的 CI 记录
+
+On 2026-10-12 (UTC+08:00), [run 38179207041](https://github.com/luoboruodai/Text-Time-Roll/actions/runs/38179207041) passed at source commit `0bc79b306c26f079a6c22dd71cdff2ce106247d6`:
+
+| Runner | Tests | Public/Git/archive audit | Reproducible ZIP |
+|---|---|---|---|
+| Windows | 37 / 37 passed | Passed | Same SHA-256 |
+| macOS | 37 / 37 passed | Passed | Same SHA-256 |
+| Ubuntu Linux | 37 / 37 passed | Passed | Same SHA-256 |
+
+三个 CI 系统均通过 37 项测试与安全审计，并生成同一校验值的归档；这仍然是逻辑/UI 模拟和构建验证，**不代表 Windows Cavalry 真机验收**。发布文档更新后的最终 tag 提交也必须通过同一 CI。 / The final tagged commit must also pass the same matrix after documentation updates. These results are not a substitute for Windows Cavalry real-app acceptance.
+
 ## Real application / 真实应用
 
 - **macOS, Cavalry 2.7.2:** exercised the current dedicated test scene.
