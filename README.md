@@ -6,7 +6,7 @@
 
 Animate a year or number on an existing Text Shape. Keep its typography, transforms and entrance animation. One scene-contained counter drives the text; the panel does not need to remain open for rendering.
 
-> 这是**数值递增/递减**，不是数字上下翻动的机械滚轮，也不是自动处理月份和闰年的日历。  
+> 这是**数值递增/递减**，不是数字上下翻动的机械滚轮，也不是自动处理月份和闰年的日历。
 > This is a **numeric counter**, not vertical digit wheels or a calendar engine.
 
 ## 中文
@@ -41,7 +41,7 @@ Animate a year or number on an existing Text Shape. Keep its typography, transfo
 5. 点击 **应用 / 更新动画**。可用“查看起点 / 中间 / 终点”检查数值，再播放时间线。
 6. **保存 Scene**。此后即使关闭面板、重新打开场景，也由场景中的 JavaScript Utility 计算数值。
 
-面板中的修改只在点击“应用”后写入场景；面板数值预览反映当前草稿，操作面板或使用跳帧按钮时刷新。改变选择、点击读取/刷新会重新加载参数；语言切换不会丢弃未应用草稿。  
+面板中的修改只在点击“应用”后写入场景；面板数值预览反映当前草稿，操作面板或使用跳帧按钮时刷新。改变选择、点击读取/刷新会重新加载参数；语言切换不会丢弃未应用草稿。
 完整流程、参数表和排错见 [使用教程 / Tutorial](docs/TUTORIAL.md)。
 
 ### 恢复与限制
