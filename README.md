@@ -2,6 +2,8 @@
 
 **v0.1.0 · Cavalry UI Script · Windows / macOS · MIT**
 
+[下载 v0.1.0 / Download](https://github.com/luoboruodai/Text-Time-Roll/releases/tag/v0.1.0) · [源码 / Source](https://github.com/luoboruodai/Text-Time-Roll) · [CI 测试 / Actions](https://github.com/luoboruodai/Text-Time-Roll/actions)
+
 在已有文本层上制作 **1978 → 2026** 一类年份/数字递增动画。保留文字的字体、排版、位置和原有出场动画；只添加一个场景内计数器，不要求渲染时打开插件面板。
 
 Animate a year or number on an existing Text Shape. Keep its typography, transforms and entrance animation. One scene-contained counter drives the text; the panel does not need to remain open for rendering.
