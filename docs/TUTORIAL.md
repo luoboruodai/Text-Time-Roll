@@ -1,58 +1,79 @@
 # 使用教程 / Tutorial
 
-## 参数对照 / Parameter reference
+## 1. 选择效果 / Choose the effect
+
+**仅数值递增 / 递减（Number counting only）** 保留v0.1.0的数值插值。适合年份逐步增加、倒数和指标数值。单调曲线保持单调数值；回拉/弹性/弹跳可能超调或回摆。
+
+**向上 / 向下滚动（Roll up/down）** 使用逐位字轮。每位数字独立从起始数字过渡到结束数字，同时显示出入字形并裁切。中间数字可能不是按年份大小排列，属于视觉翻滚，不是时间历法。
+
+Number-only mode interpolates a numeric value. Wheel mode animates each digit independently; intermediate displays can be non-chronological. Neither mode is a calendar/date engine.
+
+## 2. 参数对照 / Parameters
 
 | 中文 / English | 含义 / Meaning |
 |---|---|
-| 目标文本图层 / Target text layer | 当前合成的 Text Shape；只修改该层的文字输入 / Text Shape in the active comp; only its text input is driven |
-| 开始数值 / Start value | 区间开始前保持的数值 / Value held before the interval; ±1,000,000,000 |
-| 结束数值 / End value | 区间结束后保持的数值 / Value held after the interval; ±1,000,000,000 |
-| 时间单位 / Time unit | 帧或秒；秒按当前合成 fps 换算并四舍五入到整数帧 / Frames or seconds, rounded to frames using the current comp fps |
-| 开始/结束时间 / Start/end time | 合成绝对时间，结束至少晚 1 帧；存储范围 ±1,000,000 帧 / Absolute composition time, at least one frame apart; stored within ±1,000,000 frames |
-| 缓动 / Easing | 线性、缓入缓出 smoothstep、三次缓出 / Linear, smoothstep, cubic ease-out |
-| 小数位数 / Decimal places | 0–6；年份通常使用 0 / 0–6; use 0 for years |
-| 整数最少位数 / Minimum integer digits | 1–12，不含负号和小数；不足补零 / 1–12, excluding sign/fraction; pads with zeros |
-| 数字前缀/后缀 / Prefix/suffix | 各最多 128 个 UTF-16 码元，不接受换行/控制字符 / Up to 128 UTF-16 code units each; no control characters |
-| 允许替换 / Allow replacement | 首次接管其他输入需要勾选；原输入不删除 / Required for first takeover of another input; original source is not deleted |
+| 目标文本图层 / Target text layer | 当前合成的Text Shape；隐藏字形源不会出现在列表中 / Text Shape in active comp; owned glyph atlases are excluded |
+| 起始/结束数值 / Start/end value | 范围±1,000,000,000；可倒数 / Range±1,000,000,000; descending supported |
+| 时间单位 / Time unit | 帧或秒；秒按合成fps换算并取整 / Frames or seconds, rounded using comp fps |
+| 开始/结束时间 / Start/end time | 合成绝对帧，至少相差1帧；存储范围±1,000,000帧 / Absolute comp time, at least1 frame apart |
+| 缓动方式 / Easing | 34种曲线；Back/Elastic可能超调，Bounce可能回摆 / 34 curves, some overshoot/reverse |
+| 滚动方向 / Roll direction | 仅数值、向上、向下 / Number only, up, down |
+| 数字启动顺序 / Digit start order | 同步、从左往右、从右往左；只用于字轮 / Together, LTR, RTL; wheel mode only |
+| 错峰比例 / Stagger | 0–80%；最后一位比第一位晚启动的总时长比例 / Share of total duration delaying the last digit relative to the first |
+| 小数位数 / Decimal places | 0–6；年份通常0 / 0–6; normally0 for years |
+| 整数最少位数 / Minimum integer digits | 1–12，不含负号和小数，补零 / 1–12 excluding sign/fraction, zero-padded |
+| 数字前后缀 / Prefix/suffix | 各最多128个UTF-16码元，不接受控制字符 / Up to128 UTF-16 code units each; no control characters |
+| 允许替换原输入 / Allow replacement | 首次接管其他输入需要确认；不删除原控制器 / Consent required for foreign input takeover; original source retained |
 
-## 示例 / Examples
+例如总时长100帧、错峰35%：最后一位比第一位晚35帧启动；各位的运动时长缩短到65帧，使所有位在结束时间前完成。单个数字不产生错峰，不缩短它的总时长。顺序按数字位置计算，标点和前后缀不参与。
 
-### 年份 / Year
+For100 frames with35% stagger, the last digit starts35 frames later; per-digit movement lasts65 frames so all finish by the end. A single digit uses the full interval. Punctuation/affixes do not enter the ordering calculation.
 
-- `1978` → `2026`, frames `25` → `75`, decimals `0`, min digits `4`, smoothstep.
-- 25 fps 下为 2 秒；短区间会跳过部分年份，这是有限帧数所致。要看清每一年，延长时间。 / Two seconds at 25 fps. Short intervals skip some integers; use more frames to see more years.
-- 原有文字出场早于计数开始，则先显示 1978，随后开始递增。 / An earlier entrance reveals 1978 before counting starts.
+## 3. 示例 / Examples
 
-### 倒数 / Countdown
+### 年份字轮 / Year wheels
 
-- `10` → `0`, linear, decimals `0`, minimum digits `2`: `10 … 00`.
-- 前缀 `T-`、后缀 ` s` 都只是格式文字，不参与计算。 / Affixes are plain formatting, not expressions.
+1. 保存工程并选择文本；读取所选图层。
+2. 1978→2026，小数0、最少整数位4，25→75帧（25fps下2秒）。
+3. 平滑缓入缓出、向上滚动、从左往右、错峰35%。
+4. 应用/更新动画，查看起点/中间/终点，再保存Scene。
 
-### 小数 / Decimal metric
+Reverse vertical direction without reversing digit start order by choosing **Roll down**. Choose **Right to left** independently to change which digits start first.
 
-- `0` → `100`, decimals `2`, minimum digits `1`, suffix ` %`: `0.00 % … 100.00 %`.
-- 原字体必须含所需字符；本插件不会安装或替换字体。 / Your font must contain the requested glyphs; the plugin does not install fonts.
+### 连续数值计数 / Numeric count
 
-## 修改、恢复与转移 / Edit, restore and transfer
+- 1978→2026，选择“仅数值递增/递减”+Linear或Smoothstep。
+- 在短时间内会跳过部分年份，这是有限帧数所致。延长区间可看到更多年份。
+- Number-only mode ignores the disabled order/stagger controls but retains their draft values for later reuse.
 
-- 再选同一个文本，读取参数后应用；已有 TTR 控制器原位更新。 / Reselect the text and Apply; the same TTR controller is updated.
-- 恢复按钮只撤销文字输入接管，不撤销后续用户对字体/位置的手动编辑。 / Restore reverses text-input takeover, not subsequent manual typography/transform changes.
-- 首次原输入是另外的控制器时，不要删除它；若已删除，恢复会拒绝执行。 / Keep the original source; restoration refuses to proceed if it is missing.
-- 控制器以 `TTR Counter v0.1.0` 子层保存。不要直接修改内部 `TTRState`、时间连接或参数关键帧。 / The child is named `TTR Counter v0.1.0`; avoid modifying internal metadata, clock wiring or parameter keyframes.
-- 先保存 Scene 再关闭/拷贝；插件表达式没有电脑路径。工程的其他素材/字体仍需要按正常工程流程打包。 / Save before closing/transferring. The counter expression contains no machine paths; other project assets and fonts still need normal packaging.
-- 改 fps 不会自动重定时：计数器保存的是帧。若要保留秒数，重新输入时间并应用。 / Changing fps does not retime stored frames; re-enter seconds and apply if needed.
+### 倒数与小数 / Countdown and decimals
 
-## 排错 / Troubleshooting
+- 10→0，线性，小数0，最少整数位2，可加后缀` s`。
+- 0→100，小数2，后缀` %`。
+- 字轮稳定槽位时按两个端点的较大整数位数补零：9→100显示009→100；仅数值模式仍按最少位数普通格式化。
+- Negative sign is static while its selected endpoint sign is negative; when signs differ it switches halfway through the interval. Digits still roll independently. Avoid assuming a mathematical zero-crossing display in wheel mode.
 
-| 现象 / Symptom | 处理 / Check |
+## 4. 更新、恢复与转移 / Update, restore, transfer
+
+- v0.1.0升级后先读取参数。旧配置迁移默认仅数值模式；原三个曲线ID不变。开启字轮才新增隐藏Text Shape字形源和JavaScript Deformer。
+- 反复应用复用同一套控制器，字形源随主字体、字号和连接的字体轴变化；不需要外部素材文件。
+- Restore恢复首次接管前的文字输入，并移除自己的活动变形器连接，保留原出场行为及其他变形器的顺序/作用层级。辅助子层保留供再应用，不删除用户层。
+- 不要手动删除或改接TTR子层、内部参数、隐藏字形源可见性。受损时插件会拒绝更新，而不是覆盖不明状态。
+- 保存Scene后关闭插件面板仍可计算。跨电脑仍需安装字体、打包其他工程素材。改变fps不会自动重定时；计数器保存帧，若要保留秒数请重新输入并应用。
+
+Reads and applies are separate: drafts do not change the Scene until Apply. Language switches preserve drafts. Refresh/reselection reloads scene parameters. The preview refreshes on panel interaction or seek buttons.
+
+## 5. 排错 / Troubleshooting
+
+| 现象 / Symptom | 检查 / Check |
 |---|---|
-| 参数改变但画面不变 / Changes do not affect the scene | 点击“应用”；确认目标、当前帧与可见区间 / Apply changes; verify target, frame and visibility |
-| 面板打开但没有目标 / No selected target | 使用下拉框；跨场景后刷新列表并重新选择 / Use the dropdown; refresh/reselect after changing scenes |
-| 文字看不见 / Text is invisible | 检查原图层可见性、颜色与背景、相机、出场动画 / Check visibility, contrast, camera and entrance animation |
-| 字符方框或缺字 / Missing glyph boxes | 中文字体是否存在？面板切 EN；正文使用支持字符的字体 / Verify fonts; switch UI to EN and use a font containing the text glyphs |
-| 更新被拒绝 / Update is blocked | 检查是否换了场景、改了连接、复制了带控制器的图层或手动给内部参数加了关键帧 / Check stale target, rewiring, duplicated controllers or manual keys |
-| 数字不逐年出现 / Years are skipped | 增加帧数；短区间无法展示所有整数 / Increase duration; a short interval cannot show every integer |
-| 恢复后还有 TTR 子层 / TTR child remains after Restore | 有意保留用于再应用，已不驱动正文 / Retained intentionally for reuse, disconnected from the text |
-| 导出与预览不同 / Export differs | 先保存 Scene，检查活动相机、Render Queue、可见性和字体；插件不配置导出 / Save, verify active camera, Render Queue, visibility and fonts; export settings are outside this plugin |
+| 数字变了但没上下移动 / No vertical movement | 确认滚动方向不是“仅数值”，点击应用；在两个端点之间检查 / Enable up/down, Apply and inspect an intermediate frame |
+| 中间出现比结束年份更大的数 / Intermediate year exceeds final | 字轮按位独立，不是整体数值插值；切换仅数值+单调缓动 / Independent wheels are not chronological; use numeric mode for interpolation |
+| 回拉/弹性暂时倒转或超调 / Reverse/overshoot | 这是曲线性质；改用Linear/Smoothstep / Expected curve behaviour; select a monotonic curve if needed |
+| 文字看不见 / Invisible text | 检查原可见性、背景对比、相机、入场动画与字体 / Check original visibility, contrast, camera, entrance and font |
+| 缺字/方框 / Missing glyphs | 目标字体需含所需字符；英文界面可用于无CJK界面字体的环境 / Install suitable glyph coverage; EN UI remains available |
+| 字形源被显示或更新被拒绝 / Atlas visible or update blocked | 检查是否手动改接/显示TTR辅助层；不要删除原输入 / Check manual helper rewiring/visibility and retain the original source |
+| 复杂文字滚动异常 / Complex text layout fails | 用单行统一字体试用；逐字混合字体、连字、沿路径等需额外验证 / Test uniform single-line text; mixed-font/ligature/path layouts are not certified |
+| 导出与预览不同 / Export differs | 保存Scene并检查相机、Render Queue和字体，插件不修改导出设置 / Save and verify camera, Render Queue and fonts |
 
-若是图层时移、逐字样式或自定义变形等复杂情况，先在工程副本试用。提供 bug 时只提交可公开的最小复现，勿上传工作工程、客户素材或机密路径。 / Test complex time offsets, per-character styles and custom deformers in a copy. Report bugs with a sanitized minimal reproduction, not private production files.
+提供bug请使用可公开的合成最小复现，勿上传生产工程、客户素材、凭据或私有路径。 / Submit sanitized synthetic reproductions only.

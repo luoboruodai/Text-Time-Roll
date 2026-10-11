@@ -1,98 +1,101 @@
 # Text Time Roll · 文本时间滚动
 
-**v0.1.0 · Cavalry UI Script · Windows / macOS · MIT**
+**v0.1.1 · Cavalry UI Script · Windows / macOS · MIT**
 
-[下载 v0.1.0 / Download](https://github.com/luoboruodai/Text-Time-Roll/releases/tag/v0.1.0) · [源码 / Source](https://github.com/luoboruodai/Text-Time-Roll) · [CI 测试 / Actions](https://github.com/luoboruodai/Text-Time-Roll/actions)
+[下载 v0.1.1 / Download](https://github.com/luoboruodai/Text-Time-Roll/releases/tag/v0.1.1) · [源码 / Source](https://github.com/luoboruodai/Text-Time-Roll) · [CI / Actions](https://github.com/luoboruodai/Text-Time-Roll/actions)
 
-在已有文本层上制作 **1978 → 2026** 一类年份/数字递增动画。保留文字的字体、排版、位置和原有出场动画；只添加一个场景内计数器，不要求渲染时打开插件面板。
+在已有文本层上制作年份/数字变化，或真正的**逐位向上、向下滚动**。支持 **34 种缓动**及**从左往右 / 从右往左**的数字启动顺序，保留原单列界面和完整说明。
 
-Animate a year or number on an existing Text Shape. Keep its typography, transforms and entrance animation. One scene-contained counter drives the text; the panel does not need to remain open for rendering.
-
-> 这是**数值递增/递减**，不是数字上下翻动的机械滚轮，也不是自动处理月份和闰年的日历。
-> This is a **numeric counter**, not vertical digit wheels or a calendar engine.
+Animate numbers on an existing Text Shape, or use real **up/down digit wheels**. Choose **34 easing presets** and **left-to-right / right-to-left** digit start order, with the familiar single-column bilingual panel and full labels.
 
 ## 中文
 
-### 功能
+### v0.1.1 新增
 
-- 清晰的中文 / English 面板；内部变量使用 ASCII 名称，不依赖第三方汉化的原生属性标签。
-- 起止数值、起止帧或秒、线性 / 缓入缓出 / 缓出。
-- 小数 0–6 位、整数补零 1–12 位、可选文字前后缀；支持倒数和负数。
-- 时间区间外保持起点/终点；任意拖动时间线得到确定值。
-- 从当前合成选择文本层；可读取本插件参数，以及原生 String Generator 的两关键帧数值/时间。
-- 已有文本输入需要明确勾选后才能接管；原控制器保留，可一键恢复。
-- 重复应用更新同一个子计数器，不重复建层；场景/目标改变、外部改接、手工关键帧等情况会拦截更新。
-- 没有网络请求、遥测、API 密钥、外部素材、操作系统路径或额外运行时依赖。
+- **34 种缓动**：Linear、Smoothstep；Sine、Quad、Cubic、Quart、Quint、Expo、Circ、Back、Elastic、Bounce 的缓入/缓出/缓入缓出；8 段阶梯、保持至末帧。
+- **滚动方向**：仅数值递增/递减、向上滚动、向下滚动。上下滚动使用同时出入的两个真实字形，并按每位的窗口裁切，不是单纯切换数字。
+- **数字启动顺序**：所有数字同步、从左往右、从右往左。可调 **0–80% 错峰比例**。
+- **旧布局保留**：起始数值、结束数值、完整按钮名、预览与说明仍采用 v0.1.0 的单列结构，不改成双列极简布局。
+- **旧版兼容**：读取 v0.1.0 场景参数；首次升级保持“仅数值”模式，原三个缓动 ID 不变。用户选择上下滚动后才创建滚动辅助层。
+- 修复 Cavalry 自动收缩变形器数组时可能造成重复连接的问题；重复应用/恢复保留原出场行为的顺序和层级设置。
 
-### 安装（Windows / macOS 相同）
+> **两种模式的区别：**“仅数值”按起止数值插值；“上下滚动”让各位数字独立转到目标数字，因此中间显示值不保证按年份大小递增。顺序控制启动先后，不反转文字，也不是整段文字横向平移。Back/Elastic 会超调，Bounce 可能回摆；需要单调年份计数时用“仅数值”搭配 Linear/Smoothstep 等单调曲线。
 
-1. 从本仓库 **Releases → v0.1.0** 下载 `Text-Time-Roll-v0.1.0.zip` 并解压。也可下载仓库里的 `src/Text Time Roll.js`。
-2. 在 Cavalry 选择 **Scripts → Show Scripts Folder（脚本 → 显示脚本文件夹）**。使用菜单定位，避免不同系统、用户名和版本的目录差异。
-3. 将解压出的 **`Text Time Roll.js`** 放进该 Scripts 文件夹。
-4. 选择 **Scripts → Text Time Roll**。菜单未刷新时先重新展开菜单；更新版本时关闭旧面板，再打开新面板。通常不需要重启整个应用。
-5. 更新前将旧脚本备份到 **Scripts 文件夹以外**，避免菜单出现多个旧版本。
+### 安装与更新
 
-需要提供 Scripts 和 JavaScript Utility 功能的 Cavalry 版本/许可。真实应用验证环境为 **macOS / Cavalry 2.7.2**。Windows 使用相同源码，并纳入跨平台自动化测试；**尚未完成 Windows Cavalry 真机验证**，不能将模拟测试当作真机认证。详见 [测试与限制](docs/TESTING.md)。
+1. 下载并解压 Release 中的 **`Text-Time-Roll-v0.1.1.zip`**。
+2. Cavalry → **Scripts → Show Scripts Folder（脚本 → 显示脚本文件夹）**。
+3. 关闭旧插件面板，用 ZIP 中的 **`Text Time Roll.js`** 替换 Scripts 文件夹中的同名文件。备份请放到 Scripts 文件夹之外。
+4. 通过 **Scripts → Text Time Roll** 重新打开面板。无需为更新脚本反复重启 Cavalry。
+5. 选择旧文本并点击“读取所选图层”，核对参数后“应用 / 更新动画”，最后保存 Scene。
 
-### 快速开始：1978 → 2026
+Windows/macOS 使用同一脚本，不含电脑绝对路径或额外运行时依赖。真实应用验证为 **macOS / Cavalry 2.7.2**；需要 Scripts、JavaScript Utility 和 JavaScript Deformer 功能。**Windows Cavalry 真机尚未验证**，不能将 CI 当作真机认证。
 
-1. 先保存工程。选择要修改的 Text Shape，打开面板，点击 **读取所选图层**；也可在下拉框选择目标。
-2. 设置：开始 `1978`、结束 `2026`，小数 `0`、最少整数位 `4`。
-3. 例如在 25 fps 合成中设置开始 `25` 帧、结束 `75` 帧，得到 2 秒计数。时间使用**合成绝对帧**，不是图层入点之后的相对帧。
-4. 选择缓动。若目标已有文字输入，检查目标后勾选 **允许替换已有文字输入（保留原控制器，可恢复）**。
-5. 点击 **应用 / 更新动画**。可用“查看起点 / 中间 / 终点”检查数值，再播放时间线。
-6. **保存 Scene**。此后即使关闭面板、重新打开场景，也由场景中的 JavaScript Utility 计算数值。
+### 快速使用
 
-面板中的修改只在点击“应用”后写入场景；面板数值预览反映当前草稿，操作面板或使用跳帧按钮时刷新。改变选择、点击读取/刷新会重新加载参数；语言切换不会丢弃未应用草稿。
-完整流程、参数表和排错见 [使用教程 / Tutorial](docs/TUTORIAL.md)。
+1. 保存工程，选择 Text Shape，打开插件并点击 **读取所选图层**，或从下拉框选择文本。
+2. 输入起始/结束数值，例如 `1978` → `2026`；年份用小数 `0`、整数最少位数 `4`。
+3. 设置开始/结束时间，例如 25 fps 下 `25` → `75` 帧为 2 秒。时间是**合成绝对帧**，不是图层入点后的相对时间。
+4. 选择缓动。要启用新效果，设 **滚动方向 = 向上滚动**，**数字启动顺序 = 从左往右**，**错峰比例 = 35%**。
+5. 已有文字输入时，确认目标后勾选接管选项。点击 **应用 / 更新动画**，使用“查看起点/中间/终点”检查，然后保存 Scene。
 
-### 恢复与限制
+更详细的参数与案例见 [使用教程](docs/TUTORIAL.md)。
 
-“恢复原文字输入”会重新连接首次接管前的输入（或原文字），保留未连接的 TTR 子计数器供再应用；不会删除用户控制器。不要删除原控制器或手动改接 TTR 的时间/参数，再期待自动恢复。插件不移动其他层，不调整相机、素材、背景和导出设置。字体缺失、图层不可见或同色背景仍需按原工程设置处理。
+### 保留与恢复
 
-导入原生两关键帧时只读取端点、格式和时间，**不复制自定义贝塞尔切线**，默认使用本插件的缓入缓出。更复杂的原生控制器不自动转换。数值以普通十进制显示，不使用区域化千位分隔符；极端小数遵循 JavaScript `toFixed` 的舍入规则。混合逐字富文本样式及复杂变形需要在工程副本中额外检查。
+插件保留字体、目标层变换和原出场动画。上下滚动只在目标文字的变形器列表前插入自己的变形器；原输入和原行为保留。**恢复原文字输入**会断开本插件的文本驱动及滚动变形器，恢复首次接管前的文字输入；保留辅助子层供再应用，不删除用户层。
+
+所有表达式和隐藏字形源随 Scene 保存，关闭插件面板后继续计算。字体仍需在目标电脑安装；其他工程素材仍需正常打包。插件不修改相机、素材路径、背景、字体安装或导出设置，也不发送网络请求/遥测。
+
+### 注意与范围
+
+- 逐位滚动会按两个端点的最大整数位数补零，以稳定数字槽位，例如 `9 → 100` 显示 `009 → 100`。
+- 滚动使用目标层主字体/字号和可连接的字体轴。复杂逐字混合字体、连字、沿路径文字或特殊变形器组合不保证兼容；先在工程副本测试，必要时用“仅数值”。
+- 缓动实现参考 Magic Easing 常见曲线类型，使用自包含数学函数；**不是调用原生 Magic Easing，亦不保证逐点完全相同**。
+- 旧原生 String Generator 导入只读取两关键帧端点、时间和格式，不复制自定义贝塞尔切线。
+- 面板预览是草稿预览，修改参数后必须“应用”才写入场景。预览在操作面板/跳帧时刷新，不持续监听外部时间线。
+- 本插件不是日历系统，不处理日期进位、月份或闰年。
 
 ## English
 
-### Features
+### What's new in v0.1.1
 
-- Chinese / English UI with explicit labels; ASCII internal parameter names and Unicode-escaped translations.
-- Start/end values, absolute composition frames or seconds, linear / smoothstep / cubic ease-out.
-- 0–6 decimals, 1–12 minimum integer digits, prefixes/suffixes, descending and negative values.
-- Deterministic scrubbing and endpoint clamping. A self-contained JavaScript Utility is saved in the Scene.
-- Reads this plugin's parameters or the endpoints/timing/format of a two-key native String Generator.
-- Explicit consent before replacing another text input; the original controller is retained for restoration.
-- Updates reuse the owned counter. Stale targets, external rewiring and manually animated parameters are guarded.
-- No networking, telemetry, keys, external media, OS paths or extra runtime dependencies.
+- **34 easing presets:** Linear, Smoothstep; In/Out/In-Out variants of Sine, Quad, Cubic, Quart, Quint, Expo, Circ, Back, Elastic and Bounce; 8-step and hold-to-end.
+- **Roll direction:** number counting only, roll up, or roll down. Each active wheel contains outgoing and incoming glyphs, clipped to its digit window.
+- **Digit start order:** together, left-to-right or right-to-left, with **0–80% stagger**.
+- **Classic UI:** retained the single-column layout, full parameter/button names, preview and instructions instead of a terse two-column redesign.
+- **Migration:** loads v0.1.0 parameters without changing its three easing IDs; number-only mode remains the migration default. Rolling helpers are added only when enabled.
+- Safe deformer-array rebuilding prevents duplicate entrance connections when Cavalry compacts disconnected array slots. Apply/Restore preserves the existing entrance stack and level mode.
 
-### Install
+**Number counting** interpolates a numeric value. **Digit wheels** animate each digit independently, so intermediate displays are not necessarily chronological or monotonic. Order controls which digits start first; it does not reverse the text or move the entire string horizontally. Back/Elastic can overshoot and Bounce can reverse. For monotonic year counting, use number-only mode with a monotonic easing such as Linear or Smoothstep.
 
-Download `Text-Time-Roll-v0.1.0.zip` from **Releases**, extract it, and copy **`Text Time Roll.js`** into the folder opened by **Scripts → Show Scripts Folder** in Cavalry. Open **Scripts → Text Time Roll**. The same file is used on both systems. When updating, close the old panel, replace the file, reopen the menu/panel, and keep old backups outside Scripts. A full application restart is normally unnecessary.
+### Install / update
 
-Requires access to Cavalry's Scripts and JavaScript Utility features. Real-app validation: **macOS / Cavalry 2.7.2**. Windows uses the same source and cross-platform automated tests, but **Windows Cavalry itself has not been tested on a real machine**. See [Testing](docs/TESTING.md).
+Extract **`Text-Time-Roll-v0.1.1.zip`**. In Cavalry, use **Scripts → Show Scripts Folder**, close the old panel, replace **`Text Time Roll.js`**, and reopen it through Scripts. Keep backups outside Scripts. Read the selected text, verify the loaded parameters, Apply and save the Scene. A full application restart is not normally needed.
 
-### Use
+One script is used on Windows/macOS with no external runtime or machine paths. Requires Scripts, JavaScript Utility and JavaScript Deformer support. Real-app validation: **macOS / Cavalry 2.7.2**. **Windows Cavalry itself remains unverified**; CI checks do not certify its UI/rendering/font engine.
 
-1. Save your Scene, select a Text Shape, open the panel and choose **Read selected layer** (or select it in the dropdown).
-2. Enter `1978` → `2026`, 0 decimals, 4 minimum digits.
-3. At 25 fps, frames `25` → `75` give a two-second counter. Times refer to **absolute composition frames**, not the layer's in-point.
-4. Choose easing; explicitly allow replacement only if you intend to take over an existing text input.
-5. Click **Apply / Update**, inspect start/middle/end, play the timeline and **save the Scene**.
-6. Close the panel freely; the saved expression remains in the Scene for evaluation/rendering.
+### Quick start
 
-Draft changes are not applied until you click Apply. The draft preview refreshes on panel interaction/seek buttons, not every external timeline event. Changing target or refreshing reloads parameters; toggling language preserves drafts. **Restore original text** reconnects the first original input or text and keeps the inactive TTR child for reuse. Keep the original controller for restoration. [Full tutorial and troubleshooting](docs/TUTORIAL.md).
+1. Save your Scene, select a Text Shape, open the panel and **Read selected layer**, or use its dropdown.
+2. Set `1978` → `2026`, decimals `0`, minimum integer digits `4`.
+3. At 25 fps, frames `25` → `75` produce a two-second interval. Times are absolute composition frames.
+4. Choose easing, **Roll up**, **Left to right** and **35% stagger** for the new wheel effect.
+5. Explicitly consent if taking over an existing text input, click **Apply / Update**, inspect start/middle/end and save.
 
-Native import does not copy custom Bezier tangents; it defaults to this plugin's smoothstep. It does not convert complex native controllers. Decimal formatting uses JavaScript `toFixed`, not locale separators. Mixed character styles/complex deformers need project-specific checking. The plugin does not adjust cameras, fonts, visibility, backgrounds or export settings.
+[Full tutorial](docs/TUTORIAL.md). Draft changes do not affect the Scene until applied. Preview refreshes on panel interaction/seek buttons, not every external timeline event.
 
-## 验证状态 / Validation status
+### Preservation / limitations
 
-- **Windows / macOS / Linux CI：各 37/37 通过**，构建与安全检查通过，三个系统的发布归档 SHA-256 一致。
-- **Real application:** macOS / Cavalry 2.7.2 tested. **Windows Cavalry itself remains unverified.**
-- [CI 证据与测试边界 / Evidence and test boundaries](docs/TESTING.md)
+Typography, target transforms, original input and entrance behaviour are retained. The rolling deformer is inserted before existing text deformers. Restore reconnects the first original input and removes only this plugin's active deformer connection; it retains inactive helper children for reuse.
+
+Expressions and the hidden glyph atlas are stored in the Scene; the panel can be closed. Fonts must still be installed on the destination machine, and other project assets need normal packaging. The plugin does not modify cameras, backgrounds or export settings and performs no network/telemetry requests.
+
+Wheels pad endpoints to a stable maximum digit count. They use the text layer's main font/size/font axes; complex per-character fonts, ligatures, path text or unusual deformer combinations need project-specific checking. Easing functions are independently implemented common curve families inspired by Magic Easing options, not calls to the native Magic Easing engine. Native String Generator import does not copy custom Bezier tangents. This is not a calendar/date engine.
 
 ## Development / 开发
 
-No package installation is required. Development checks use Node.js 22+ and Python 3.9+ (standard libraries only):
+Node.js 22+ and Python 3.9+; no package installation required:
 
 ```sh
 npm test
@@ -100,8 +103,8 @@ python3 tools/build_release.py
 python3 tools/audit_public.py --git
 ```
 
-On Windows use `python` instead of `python3` if appropriate. `--git` requires an initialized Git repository; omit it for source-only checks. Release builds are explicit-allowlist ZIPs with SHA-256 checksums. See [Contributing](CONTRIBUTING.md) and [Changelog](CHANGELOG.md).
+Use `python` on Windows if appropriate. `--git` also audits staged blobs and reachable history. Builds use explicit allowlists and SHA-256 checksums. Real scenes, customer media, local handoff notes, credentials and caches are not distributed.
 
-**维护要求 / Maintenance:** 每次版本更新同步更新 README 的介绍、功能、安装/教程、兼容性、CHANGELOG 和对应 release notes，不只改版本号。Update the README's introduction, features, installation/tutorial and compatibility notes together with the version, changelog and release notes.
+[Testing / 测试范围](docs/TESTING.md) · [Changelog / 更新记录](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [MIT](LICENSE)
 
-[MIT License](LICENSE). Independent community project; not affiliated with Cavalry.
+**维护要求 / Maintenance:** 每次更新同步版本、README功能介绍/教程/兼容性、CHANGELOG和对应Release说明。Update the introduction, tutorial, compatibility, changelog and release notes with every version. Independent community project; not affiliated with Cavalry.

@@ -6,10 +6,10 @@ function createUI() {
     clear(){this.entries=[];this.setValue(-1);}addEntry(v){this.entries.push(v);}
     add(v){this.children.push(v);}setLayout(v){this.layout=v;}
     addStretch(){}setMinimumWidth(){}setMargins(){}setSpaceBetween(){}setTextColor(){}
-    setType(){}setMin(){}setMax(){}setStep(){}
+    setType(){}setMin(){}setMax(){}setStep(){}setToolTip(v){this.tooltip=v;}setHidden(v){this.hidden=v;}setEnabled(v){this.enabled=v;}
   }
   return {VLayout:Widget,HLayout:Widget,Label:Widget,Button:Widget,DropDown:Widget,
     NumericField:Widget,LineEdit:Widget,Checkbox:Widget,ScrollView:Widget,
-    setTitle(){},setMinimumWidth(){},setMinimumHeight(){},add(){},show(){}};
+    setTitle(){},setMinimumWidth(){},setMinimumHeight(){},setMaximumWidth(){},setMaximumHeight(){},add(){},show(){}};
 }
 module.exports={createUI};

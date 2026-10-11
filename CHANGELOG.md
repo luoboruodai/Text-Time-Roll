@@ -1,5 +1,23 @@
 # Changelog / 更新记录
 
+## 0.1.1 — 2026-10-12
+
+### 中文
+- 从3种扩充至34种缓动，保留旧ID与端点行为。
+- 新增向上/向下逐位字轮、同步/LTR/RTL启动顺序、错峰比例。
+- 保留旧版单列布局、完整参数名和说明，撤回开发中的双列极简方案。
+- 旧控制器原位迁移；自包含隐藏字形源和滚动变形器，保持字体、原出场及恢复能力。
+- 修复Cavalry变形器数组断开时自动收缩/重排导致的重复连接；保护原行为作用层级。
+- 新增缓动、方向、几何裁切、迁移、故障回滚、原行为保留与完整UI回归测试。
+
+### English
+- Expanded3 easings to34 while keeping legacy IDs/endpoints.
+- Added up/down digit wheels, together/LTR/RTL start order and stagger.
+- Retained classic single-column layout with full labels/instructions; discarded the terse two-column development variant.
+- In-place controller migration with scene-contained hidden glyph atlas and deformer; original typography/entrance/restoration retained.
+- Fixed duplicate connections caused by Cavalry compacting disconnected deformer array entries; preserves original behaviour level mode.
+- Added easing, direction, geometry/clipping, migration, rollback, preservation and classic-UI regression coverage.
+
 ## 0.1.0 — 2026-10-12
 
 ### 中文

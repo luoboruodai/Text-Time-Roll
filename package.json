@@ -1,11 +1,13 @@
 {
   "name": "cavalry-text-time-roll",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
-  "description": "Bilingual numeric/year counter UI Script for Cavalry",
+  "description": "Bilingual numeric counter and directional digit wheels for Cavalry",
   "license": "MIT",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "test": "node --test tests/time-roll.test.cjs tests/ui.test.cjs tests/release.test.cjs"
+    "test": "node --test tests/time-roll.test.cjs tests/ui.test.cjs tests/rolling.test.cjs tests/release.test.cjs"
   }
 }

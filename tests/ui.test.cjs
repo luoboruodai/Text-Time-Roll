@@ -26,3 +26,7 @@ test('UI blocks stale targets; refresh requires explicit reselection',()=>{
 test('empty initial selection still populates target dropdown',()=>{
  const m=createMock();m.state.selection=[];const p=ttr.showUI(m.api,createUI());assert.equal(p.target.entries.length,3);assert.match(p.target.entries[1],/Year/);p.target.setValue(1);click(p,'apply');assert(ttr.findCounter(m.api,'text#1'));
 });
+test('classic single-column labels, full buttons and explanatory text are restored',()=>{
+ const m=createMock(),p=ttr.showUI(m.api,createUI());
+ assert.equal(p.labels.find(x=>x.key==='startValue').w.getText(),'起始数值');assert.equal(p.labels.find(x=>x.key==='endFrame').w.getText(),'结束时间');assert.equal(p.buttons.find(x=>x.key==='apply').w.getText(),'应用 / 更新动画');assert.equal(p.buttons.find(x=>x.key==='restore').w.getText(),'恢复原文字输入');assert(p.intro.getText().includes('保留原有排版'));assert(p.note.getText().includes('请保存'));assert(p.timing.getText().includes('fps'));
+});
