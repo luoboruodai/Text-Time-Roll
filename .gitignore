@@ -1,0 +1,19 @@
+# Private local context, projects, render evidence and skill snapshots.
+PROJECT.md
+project.md
+private/
+work/
+backups/
+.env
+.env.*
+*.cv
+*.cvc
+*.log
+*.mov
+*.mp4
+*.gif
+*.png
+.DS_Store
+__pycache__/
+node_modules/
+dist/
