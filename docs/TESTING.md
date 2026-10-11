@@ -6,7 +6,7 @@ Version: **0.1.0** · Date: **2026-10-12**
 
 Run `npm test`, then build and audit the release. Tests cover numeric endpoints/clamping, fractional samples, descending values, precision/padding, Unicode, validation, frame/second conversion, macOS/Windows API mocks, takeover/restore/reapply, rollback, foreign rewiring, stale scene/comp/ID guards, idempotence and UI drafts/callbacks. Release tests validate package reproducibility, allowlists, checksums and rejection of synthetic security violations.
 
-GitHub Actions runs the same public tests on **macos-latest, windows-latest and ubuntu-latest**, with no Cavalry installation. CI verifies JavaScript logic and packaging on those runners; it **does not** test their Cavalry rendering/UI/font engines. Check the Actions result for the exact commit being used.
+The GitHub Actions workflow is configured to run the same public tests on **macos-latest, windows-latest and ubuntu-latest**, with no Cavalry installation. CI verifies JavaScript logic and packaging on those runners; it **does not** test their Cavalry rendering/UI/font engines. Check the Actions result for the exact commit being used. At the initial local handoff, remote CI has not run: repository creation is blocked by the authenticated account token's permissions.
 
 ## Real application / 真实应用
 

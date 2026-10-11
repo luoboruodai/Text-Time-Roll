@@ -17,3 +17,6 @@ backups/
 __pycache__/
 node_modules/
 dist/
+
+# Local agent handoff entrypoint (not a public project artifact).
+AGENTS.md
